@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة استعلام الغرامات - النسخة الاحترافية</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { 
+            font-family: 'Cairo', sans-serif; 
+            background-color: #0d0f14; 
+            color: #e2e8f0;
+        }
+        .glass { 
+            background: rgba(30, 32, 40, 0.7); 
+            backdrop-filter: blur(16px); 
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+        }
+        .modal { 
+            display: none; 
+            position: fixed; 
+            inset: 0; 
+            background: rgba(0,0,0,0.9); 
+            z-index: 100; 
+            align-items: center; 
+            justify-content: center; 
+            padding: 20px; 
+        }
+        .modal.active { display: flex; }
+        .card-enter {
+            animation: slideUp 0.4s ease-out forwards;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-20">
+
+    <div id="imageModal" class="modal" onclick="toggleModal()">
+        <div class="max-w-md w-full bg-[#1a1c21] p-6 rounded-[2rem] border border-white/10 relative" onclick="event.stopPropagation()">
+            <button onclick="toggleModal()" class="absolute -top-3 -left-3 bg-red-500 hover:bg-red-600 w-10 h-10 rounded-full flex items-center justify-center shadow-2xl transition-transform active:scale-90">
+                <i data-lucide="x" class="w-6 h-6 text-white"></i>
+            </button>
+            <div class="text-center mb-4">
+                <h3 class="text-lg font-bold text-white">أين أجد رقم السنوية؟</h3>
+                <p class="text-sm text-gray-400">ستجده مطبوعاً على واجهة السنوية</p>
+            </div>
+            <img src="img.png" alt="تعليمات رقم السنوية" class="w-full rounded-2xl shadow-2xl border border-white/5" onerror="this.src='https://placehold.co/600x400/1a1c21/white?text=Image+Missing'">
+        </div>
+    </div>
+
+    <div class="max-w-2xl mx-auto px-4 pt-12">
+        <header class="text-center mb-12">
+            <div class="inline-flex p-5 rounded-[2rem] bg-blue-600/10 mb-6 border border-blue-500/20">
+                <i data-lucide="car-front" class="w-12 h-12 text-blue-500"></i>
+            </div>
+            <h1 class="text-4xl font-black tracking-tight text-white mb-3">الغرامات المرورية</h1>
+            <p class="text-gray-400 text-lg">بوابة الاستعلام الرقمي لمركبات العراق</p>
+        </header>
+
+        <div class="glass p-3 rounded-[2.5rem] shadow-2xl mb-10 border border-white/10">
+            <div class="flex flex-col md:flex-row gap-3">
+                <div class="relative flex-1 group">
+                    <i data-lucide="hash" class="w-5 h-5 absolute right-5 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-blue-500 transition-colors"></i>
+                    <input type="number" id="vidInput" 
+                           class="w-full bg-black/40 border border-white/5 rounded-[1.8rem] py-5 pr-14 pl-14 text-xl focus:ring-2 focus:ring-blue-600/50 outline-none transition-all font-mono placeholder:text-gray-600 text-blue-400" 
+                           placeholder="ادخل رقم السنوية...">
+                    <button onclick="toggleModal()" class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-blue-400 p-2 transition-colors">
+                        <i data-lucide="help-circle" class="w-6 h-6"></i>
+                    </button>
+                </div>
+                <button onclick="makeRequest()" 
+                        id="searchBtn"
+                        class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white px-10 py-5 rounded-[1.8rem] font-black text-lg transition-all flex items-center justify-center gap-3">
+                    <i data-lucide="search" class="w-6 h-6"></i>
+                    <span>استعلام</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="summaryArea" class="grid grid-cols-2 gap-4 mb-10 hidden"></div>
+
+        <div id="resultArea" class="space-y-5">
+            <div class="text-center py-24 glass rounded-[3rem] border-dashed border-white/10">
+                <div class="opacity-20 flex justify-center mb-4">
+                    <i data-lucide="fingerprint" class="w-16 h-16"></i>
+                </div>
+                <p class="text-gray-500 font-medium">أدخل رقم السنوية لبدء الاستعلام</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
